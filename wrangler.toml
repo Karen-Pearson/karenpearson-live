@@ -1,0 +1,11 @@
+# Karen Pearson's site. Lives on KAREN's Cloudflare account, not Nicole's.
+# Moved 2026-08-03 per Nicole: "This is not Nicole's Cloudflare problem."
+name = "karenpearson-live"
+pages_build_output_dir = "site"
+
+# Her own inquiries store, on her own account. Started clean on 2026-08-03.
+# The two records in Nicole's old namespace were build-night form tests and
+# were deliberately not carried over.
+[[kv_namespaces]]
+binding = "INQUIRIES"
+id = "064106f38824400cb6fb899bb7cfe3d6"

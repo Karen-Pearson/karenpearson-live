@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Received · Karen Pearson</title>
+<link rel="canonical" href="https://karenpearson.live/thanks">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "url": "https://karenpearson.live/thanks",
+  "name": "Received · Karen Pearson",
+  "about": { "@type": "Person", "@id": "https://karenpearson.live/#person", "name": "Karen Pearson" }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Karen Pearson">
+<meta property="og:url" content="https://karenpearson.live/thanks">
+<meta property="og:title" content="Received · Karen Pearson">
+<meta property="og:description" content="">
+<meta property="og:image" content="https://karenpearson.live/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Karen Pearson, philosopher, author, and artist on Decatur Island">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Received · Karen Pearson">
+<meta name="twitter:description" content="">
+<meta name="twitter:image" content="https://karenpearson.live/og-image.jpg">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="thanks-body">
+
+<nav class="topnav" id="topnav">
+  <div class="nav-row">
+    <a class="nav-brand" href="/">Karen Pearson</a>
+    <button class="nav-burger" id="navburger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navlinks">
+      <li><a href="/blog">Blog</a></li>
+      <li><a href="/vlog">Vlog</a></li>
+      <li><a href="/#who">About</a></li>
+      <li><a href="/#newsletter">Newsletter</a></li>
+      <li><a class="nav-work" href="/work">Work with Karen</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="plankton-field" id="plankton" aria-hidden="true"></div>
+
+<main class="thanks-sea">
+  <h1 class="ask-q">Received.</h1>
+  <p class="thanks-line">What you wrote stays between you and me. All submissions receive replies.</p>
+
+  <p class="thanks-next">These are your next steps. Watch this.</p>
+
+  <a class="video-card glow-teal home-video thanks-video" href="https://www.youtube.com/watch?v=e5XM8t6tw2M">
+    <span class="video-frame">
+      <img src="https://i.ytimg.com/vi/e5XM8t6tw2M/hqdefault.jpg" alt="Stop Wasting Your Time" loading="lazy">
+      <span class="play-button" aria-hidden="true"><span></span></span>
+    </span>
+  </a>
+
+  <p class="thanks-sign">Live deliberately. Karen</p>
+  <a class="read-more" href="/">Back to the island</a>
+</main>
+
+<footer class="sea-floor">
+  <h2>The Record</h2>
+  <ul class="legal-links">
+    <li><a href="/privacy-policy">Privacy Policy</a></li>
+    <li><a href="/terms-of-service">Terms of Service</a></li>
+    <li><a href="/earnings-disclaimer">Earnings Disclaimer</a></li>
+    <li><a href="/affiliate-disclaimer">Affiliate Disclaimer</a></li>
+    <li><a href="/legal-disclaimer">Legal Disclaimer</a></li>
+    <li><a href="/refund-chargeback-policy">Refund Policy</a></li>
+    <li><a href="/dmca-policy">DMCA Policy</a></li>
+    <li><a href="/gdpr-ccpa">GDPR &amp; CCPA Policy</a></li>
+    <li><a href="/anti-class-action">Anti-Class Action</a></li>
+    <li><a href="/opt-in-agreement">Opt-In Agreement</a></li>
+    <li><a href="/testimonial-disclaimer">Testimonial Disclaimer</a></li>
+  </ul>
+  <p class="colophon">Karen Pearson &middot; karenpearson.live</p>
+  <p class="credits">Staging photography: <a href="https://commons.wikimedia.org/wiki/File:Monterey_Bay_Aquarium_Kelp_Forest_exhibit_05.jpg" rel="noopener">Joe Mabel</a> (Decatur Island and the Monterey Bay Aquarium kelp forest, CC BY-SA 4.0, kelp image cropped and color adjusted), <a href="https://commons.wikimedia.org/wiki/File:School_of_sardines_at_the_Monterey_Bay_Aquarium_(12056).jpg" rel="noopener">Rhododendrites</a> (sardine school, <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener">CC BY-SA 4.0</a>, cropped and color adjusted), Wikimedia Commons contributors (jellyfish, CC BY and CC BY-SA). Final photography to be Karen&rsquo;s own or licensed.</p>
+</footer>
+
+<script>
+const burger = document.getElementById('navburger');
+const links = document.getElementById('navlinks');
+burger.addEventListener('click', () => {
+  const open = links.classList.toggle('open');
+  burger.classList.toggle('open', open);
+  burger.setAttribute('aria-expanded', open);
+});
+
+// Brighter water here: denser, bigger, livelier light
+const field = document.getElementById('plankton');
+const sizes = ['', 'dim', 'faint'];
+for (let i = 0; i < 130; i++) {
+  const p = document.createElement('span');
+  p.className = 'plankton ' + sizes[i % 3];
+  p.style.left = (Math.random() * 100) + '%';
+  p.style.top = (Math.random() * 100) + '%';
+  p.style.setProperty('--dur', (4 + Math.random() * 7) + 's');
+  p.style.setProperty('--delay', (Math.random() * 8) + 's');
+  p.style.setProperty('--peak', (0.5 + Math.random() * 0.4).toFixed(2));
+  field.appendChild(p);
+}
+</script>
+
+</body>
+</html>
