@@ -27,7 +27,7 @@
 <meta name="twitter:title" content="The Writing">
 <meta name="twitter:description" content="The Writing: essays by Karen Pearson, philosopher, author, and artist on Decatur Island, Washington. Each piece isolates one pattern and traces the language producing the result.">
 <meta name="twitter:image" content="https://karenpearson.live/og-image.jpg">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css?v=20260807">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -154,6 +154,25 @@
   <!-- Staggered rows per Nicole 2026-07-28: image and card trade sides each row.
        Karen's 30 posts added 2026-08-03, images served from images.karenpearson.live.
        Post 7 "Home" still uses the placeholder, no image supplied. -->
+  <!-- Search + month archive per Karen 2026-08-06. Both read the post rows below,
+       so adding a post to this page adds it to search and to the archive with no
+       other edit. The article markup underneath is untouched. -->
+  <div class="blog-index">
+    <div class="blog-index-main">
+
+      <div class="blog-search">
+        <label class="blog-search-label" for="postsearch">Search the writing</label>
+        <div class="blog-search-field">
+          <svg class="blog-search-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"></circle><line x1="16.5" y1="16.5" x2="21" y2="21"></line>
+          </svg>
+          <input type="search" id="postsearch" autocomplete="off"
+                 placeholder="A word, a title, an idea&hellip;">
+          <button type="button" class="blog-search-clear" id="postsearchclear" hidden>Clear</button>
+        </div>
+        <p class="blog-search-count" id="postcount" role="status" aria-live="polite"></p>
+      </div>
+
   <div class="blog-rows">
     <article class="blog-row">
       <a class="row-image" href="/to-eliminate-a-king" tabindex="-1" aria-hidden="true">
@@ -531,6 +550,19 @@
     </article>
   </div>
 
+      <p class="blog-empty" id="postempty" hidden>
+        Nothing here matches that. <button type="button" class="blog-reset">Show every post</button>
+      </p>
+
+    </div><!-- /.blog-index-main -->
+
+    <aside class="blog-archive" id="blogarchive" aria-labelledby="archivehead">
+      <h2 class="archive-head" id="archivehead">Archive</h2>
+      <!-- Filled by the script below from the dates already on this page. -->
+      <ul class="archive-list" id="archivelist"></ul>
+    </aside>
+  </div><!-- /.blog-index -->
+
   <!-- The fish merge into the water at the bottom -->
   <div class="blog-floor" aria-hidden="true"></div>
 </main>
@@ -627,6 +659,117 @@ nlmodal.querySelectorAll('[data-close]').forEach(el => {
   el.addEventListener('click', () => nlmodal.classList.remove('open'));
 });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') nlmodal.classList.remove('open'); });
+</script>
+
+<!-- Search + month archive, added 2026-08-07 for Karen's 2026-08-06 request.
+     Everything below reads the post rows that are already on this page.
+     Add a post to the list above and it appears in both with no edit here. -->
+<script>
+(function () {
+  const rowsWrap  = document.querySelector('.blog-rows');
+  const input     = document.getElementById('postsearch');
+  const clearBtn  = document.getElementById('postsearchclear');
+  const countEl   = document.getElementById('postcount');
+  const emptyEl   = document.getElementById('postempty');
+  const listEl    = document.getElementById('archivelist');
+  if (!rowsWrap || !input || !listEl) return;
+
+  const MONTHS = ['January','February','March','April','May','June',
+                  'July','August','September','October','November','December'];
+
+  // Read each row once. The kicker is either "July 1, 2026" or
+  // "The Island · July 27, 2026", so take the part after any separator.
+  const posts = [...rowsWrap.querySelectorAll('.blog-row')].map(el => {
+    const kicker = (el.querySelector('.card-kicker')?.textContent || '').trim();
+    const datePart = kicker.split('·').pop().trim();
+    const m = datePart.match(/^([A-Za-z]+)\s+\d{1,2},\s*(\d{4})$/);
+    const month = m ? m[1] : '';
+    const year  = m ? m[2] : '';
+    return {
+      el,
+      key: month && year ? month + ' ' + year : '',
+      sort: month && year ? Number(year) * 100 + MONTHS.indexOf(month) : -1,
+      text: [
+        el.querySelector('h2')?.textContent || '',
+        el.querySelector('.excerpt')?.textContent || '',
+        kicker
+      ].join(' ').toLowerCase()
+    };
+  });
+
+  // Build the archive from those dates, newest month first.
+  const months = new Map();
+  posts.forEach(p => {
+    if (!p.key) return;
+    if (!months.has(p.key)) months.set(p.key, { sort: p.sort, count: 0 });
+    months.get(p.key).count++;
+  });
+  const ordered = [...months.entries()].sort((a, b) => b[1].sort - a[1].sort);
+
+  let activeMonth = '';
+
+  ordered.forEach(([key, info]) => {
+    const li = document.createElement('li');
+    const b  = document.createElement('button');
+    b.type = 'button';
+    b.className = 'archive-link';
+    b.dataset.month = key;
+    b.innerHTML = '<span class="archive-month">' + key +
+                  '</span><span class="archive-count">' + info.count + '</span>';
+    b.addEventListener('click', () => {
+      activeMonth = (activeMonth === key) ? '' : key;
+      if (activeMonth) { input.value = ''; }
+      apply();
+    });
+    li.appendChild(b);
+    listEl.appendChild(li);
+  });
+
+  function apply() {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+
+    posts.forEach(p => {
+      const okText  = !q || p.text.includes(q);
+      const okMonth = !activeMonth || p.key === activeMonth;
+      const visible = okText && okMonth;
+      p.el.hidden = !visible;
+      // Her zigzag alternates with .flip. Re-alternate across what is
+      // actually visible, or a filtered list stacks images on one side.
+      if (visible) {
+        p.el.classList.toggle('flip', shown % 2 === 1);
+        shown++;
+      }
+    });
+
+    listEl.querySelectorAll('.archive-link').forEach(b => {
+      const on = b.dataset.month === activeMonth;
+      b.classList.toggle('is-active', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+
+    clearBtn.hidden = !q && !activeMonth;
+    emptyEl.hidden  = shown !== 0;
+
+    if (!q && !activeMonth) {
+      countEl.textContent = posts.length + ' posts';
+    } else {
+      const where = activeMonth ? ' in ' + activeMonth : '';
+      countEl.textContent = shown === 1
+        ? '1 post' + where
+        : shown + ' posts' + where;
+    }
+  }
+
+  function reset() { input.value = ''; activeMonth = ''; apply(); }
+
+  input.addEventListener('input', () => { activeMonth = ''; apply(); });
+  input.addEventListener('keydown', e => { if (e.key === 'Escape') reset(); });
+  clearBtn.addEventListener('click', () => { reset(); input.focus(); });
+  document.querySelectorAll('.blog-reset').forEach(b => b.addEventListener('click', reset));
+
+  apply();
+})();
 </script>
 
 </body>
